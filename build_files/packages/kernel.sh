@@ -1,15 +1,15 @@
 #!/usr/bin/bash
 set -eoux pipefail
 
-dnf5 copr enable -y bieszczaders/kernel-cachyos-addons
+#dnf copr enable -y bieszczaders/kernel-cachyos-addons
 
 # Adds required package for the scheduler
-dnf5 install -y \
-    --enablerepo="copr:copr.fedorainfracloud.org:bieszczaders:kernel-cachyos-addons" \
-    --allowerasing \
-    libcap-ng libcap-ng-devel bore-sysctl cachyos-ksm-settings procps-ng procps-ng-devel uksmd libbpf scx-scheds-git scx-tools scx-manager cachyos-settings ananicy-cpp
+#dnf install -y \
+    #--enablerepo="copr:copr.fedorainfracloud.org:bieszczaders:kernel-cachyos-addons" \
+    #--allowerasing \
+    #libcap-ng libcap-ng-devel bore-sysctl cachyos-ksm-settings procps-ng procps-ng-devel uksmd libbpf scx-scheds-git scx-tools-git scx-manager cachyos-settings ananicy-cpp
 
-dnf5 copr enable -y bieszczaders/kernel-cachyos-lto
+dnf copr enable -y catpieleaf/kernel-p03
 
 # Remove useless kernels
 readarray -t OLD_KERNELS < <(rpm -qa 'kernel-*')
@@ -21,17 +21,13 @@ if (( ${#OLD_KERNELS[@]} )); then
 fi
 
 # Install kernel packages (noscripts required for 43+)
-dnf5 install -y \
-    --enablerepo="copr:copr.fedorainfracloud.org:bieszczaders:kernel-cachyos-lto" \
+dnf install -y \
+    --enablerepo="copr:copr.fedorainfracloud.org:catpieleaf:kernel-p03" \
     --allowerasing \
     --setopt=tsflags=noscripts \
-    kernel-cachyos-lto \
-    kernel-cachyos-lto-devel-matched \
-    kernel-cachyos-lto-devel \
-    kernel-cachyos-lto-modules \
-    kernel-cachyos-lto-core
-
-KERNEL_VERSION="$(rpm -q --qf '%{VERSION}-%{RELEASE}.%{ARCH}\n' kernel-cachyos-lto)"
+    kernel-p03 \
+    kernel-p03-core
+KERNEL_VERSION="$(rpm -q --qf '%{VERSION}-%{RELEASE}.%{ARCH}\n' kernel-p03)"
 
 # Depmod (required for fedora 43+)
 depmod -a "${KERNEL_VERSION}"
@@ -44,8 +40,8 @@ if [[ -f "${VMLINUZ_SOURCE}" ]]; then
 fi
 
 # Lock kernel packages
-dnf5 versionlock add "kernel-cachyos-lto-${KERNEL_VERSION}" || true
-dnf5 versionlock add "kernel-cachyos-lto-modules-${KERNEL_VERSION}" || true
+dnf versionlock add "kernel-p03-${KERNEL_VERSION}" || true
+dnf versionlock add "kernel-cachyos-p03-modules-${KERNEL_VERSION}" || true
 
 
 # Thank you @renner03 for this part
