@@ -6,7 +6,6 @@ dnf remove -y --setopt=install_weak_deps=False \
     gnome-software
 
 dnf install -y \
-    intel-lpmd \
     android-tools \
     mangohud \
     https://github.com/nbfc-linux/nbfc-linux/releases/download/0.5.3/fedora-44-nbfc-linux-0.5.3-1.x86_64.rpm
