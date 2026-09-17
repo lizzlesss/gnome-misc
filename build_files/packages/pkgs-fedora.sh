@@ -11,9 +11,6 @@ dnf install -y \
     gdm \
     https://github.com/nbfc-linux/nbfc-linux/releases/download/0.5.3/fedora-44-nbfc-linux-0.5.3-1.x86_64.rpm
 
-systemctl enable gdm
-systemctl restart gdm
-
 # copr
 dnf copr enable -y bieszczaders/kernel-cachyos-addons
 
