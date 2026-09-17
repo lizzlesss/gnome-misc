@@ -2,6 +2,9 @@
 
 set -eoux pipefail
 
+dnf remove -y --setopt=install_weak_deps=False \
+    gnome-software
+
 dnf install -y \
     intel-lpmd \
     android-tools \
@@ -15,13 +18,6 @@ dnf copr enable -y bieszczaders/kernel-cachyos-addons
 dnf install -y \
     --enablerepo="copr:copr.fedorainfracloud.org:bieszczaders:kernel-cachyos-addons" \
     --allowerasing \
-    libcap-ng libcap-ng-devel cachyos-ksm-settings procps-ng procps-ng-devel uksmd libbpf scx-scheds-git scx-tools-git scx-manager cachyos-settings ananicy-cpp
+    libcap-ng libcap-ng-devel procps-ng procps-ng-devel uksmd libbpf scx-scheds-git scx-tools-git scx-manager
 
-dnf -y copr enable mochaa/android-udev-rules
-
-dnf -y install \
-    android-udev-rules
-    
-dnf -y copr disable mochaa/android-udev-rules
 dnf -y copr disable bieszczaders/kernel-cachyos-addons
-
