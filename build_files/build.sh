@@ -8,4 +8,3 @@ set -ouex pipefail
 
 systemctl enable podman.socket
 systemctl enable gdm
-systemctl restart gdm
