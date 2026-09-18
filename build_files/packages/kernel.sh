@@ -22,7 +22,7 @@ fi
 
 # Install kernel packages (noscripts required for 43+)
 dnf install -y \
-    --enablerepo="copr:copr.fedorainfracloud.org:g:kernel-vanilla:fedora" \
+    #--enablerepo="copr:copr.fedorainfracloud.org:g:kernel-vanilla:fedora" \
     --allowerasing \
     --setopt=tsflags=noscripts \
     mainline-fedora-rawhide \
