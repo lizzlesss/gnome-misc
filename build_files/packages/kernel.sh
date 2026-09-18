@@ -9,7 +9,7 @@ set -eoux pipefail
     #--allowerasing \
     #libcap-ng libcap-ng-devel bore-sysctl cachyos-ksm-settings procps-ng procps-ng-devel uksmd libbpf scx-scheds-git scx-tools-git scx-manager cachyos-settings ananicy-cpp
 
-dnf copr enable -y binarytree/linux-power-lto
+dnf copr enable -y binarytree/linux-zen-fedora
 
 # Remove useless kernels
 readarray -t OLD_KERNELS < <(rpm -qa 'kernel-*')
@@ -25,13 +25,13 @@ dnf install -y \
     --enablerepo="copr:copr.fedorainfracloud.org:binarytree:linux-power-lto" \
     --allowerasing \
     --setopt=tsflags=noscripts \
-    kernel-power-lto \
-    kernel-power-lto-devel-matched \
-    kernel-power-lto-devel \
-    kernel-power-lto-modules \
-    kernel-power-lto-core
+    kernel-zen-v3 \
+    kernel-zen-v3-devel-matched \
+    kernel-zen-v3-devel \
+    kernel-zen-v3-modules \
+    kernel-zen-v3-core
 
-KERNEL_VERSION="$(rpm -q --qf '%{VERSION}-%{RELEASE}.%{ARCH}\n' kernel-power-lto)"
+KERNEL_VERSION="$(rpm -q --qf '%{VERSION}-%{RELEASE}.%{ARCH}\n' kernel-zen-v3)"
 
 # Depmod (required for fedora 43+)
 depmod -a "${KERNEL_VERSION}"
@@ -44,8 +44,8 @@ if [[ -f "${VMLINUZ_SOURCE}" ]]; then
 fi
 
 # Lock kernel packages
-dnf versionlock add "kernel-power-lto-${KERNEL_VERSION}" || true
-dnf versionlock add "kernel-power-lto-modules-${KERNEL_VERSION}" || true
+dnf versionlock add "kernel-zen-v3-${KERNEL_VERSION}" || true
+dnf versionlock add "kernel-zen-v3-modules-${KERNEL_VERSION}" || true
 
 
 # Thank you @renner03 for this part
