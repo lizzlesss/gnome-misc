@@ -9,7 +9,7 @@ set -eoux pipefail
     #--allowerasing \
     #libcap-ng libcap-ng-devel bore-sysctl cachyos-ksm-settings procps-ng procps-ng-devel uksmd libbpf scx-scheds-git scx-tools-git scx-manager cachyos-settings ananicy-cpp
 
-dnf copr enable -y binarytree/linux-zen-fedora fedora-rawhide-x86_64
+dnf copr enable -y bieszczaders/kernel-cachyos-lto
 
 # Remove useless kernels
 readarray -t OLD_KERNELS < <(rpm -qa 'kernel-*')
@@ -22,16 +22,16 @@ fi
 
 # Install kernel packages (noscripts required for 43+)
 dnf install -y \
-    --enablerepo="copr:copr.fedorainfracloud.org:binarytree:linux-zen-fedora" \
+    --enablerepo="copr:copr.fedorainfracloud.org:bieszczaders:kernel-cachyos-lto" \
     --allowerasing \
     --setopt=tsflags=noscripts \
-    kernel-zen-v3 \
-    kernel-zen-v3-devel-matched \
-    kernel-zen-v3-devel \
-    kernel-zen-v3-modules \
-    kernel-zen-v3-core
+    kernel-cachyos-lto \
+    kernel-cachyos-lto-devel-matched \
+    kernel-cachyos-lto-devel \
+    kernel-cachyos-lto-modules \
+    kernel-cachyos-lto-core
 
-KERNEL_VERSION="$(rpm -q --qf '%{VERSION}-%{RELEASE}.%{ARCH}\n' kernel-zen-v3)"
+KERNEL_VERSION="$(rpm -q --qf '%{VERSION}-%{RELEASE}.%{ARCH}\n' kernel-cachyos-lto)"
 
 # Depmod (required for fedora 43+)
 depmod -a "${KERNEL_VERSION}"
@@ -44,8 +44,8 @@ if [[ -f "${VMLINUZ_SOURCE}" ]]; then
 fi
 
 # Lock kernel packages
-dnf versionlock add "kernel-zen-v3-${KERNEL_VERSION}" || true
-dnf versionlock add "kernel-zen-v3-modules-${KERNEL_VERSION}" || true
+dnf versionlock add "kernel-cachyos-lto-${KERNEL_VERSION}" || true
+dnf versionlock add "kernel-cachyos-lto-modules-${KERNEL_VERSION}" || true
 
 
 # Thank you @renner03 for this part
