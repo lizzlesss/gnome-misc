@@ -22,7 +22,7 @@ fi
 
 # Install kernel packages (noscripts required for 43+)
 dnf install -y \
-    --enablerepo="copr:copr.fedorainfracloud.org:binarytree:linux-power-lto" \
+    --enablerepo="copr:copr.fedorainfracloud.org:binarytree:linux-zen-fedora" \
     --allowerasing \
     --setopt=tsflags=noscripts \
     kernel-zen-v3 \
