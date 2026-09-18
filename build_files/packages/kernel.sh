@@ -31,12 +31,6 @@ dnf install -y \
     kernel-power-lto-modules \
     kernel-power-lto-core
 
-curl -LO "https://github.com/DXC-0/ogc-kernel-rpm/releases/latest/download/kernel-power-lto-${VERSION}.rpm"
-curl -LO "https://github.com/DXC-0/ogc-kernel-rpm/releases/latest/download/kernel-power-lto-core-${VERSION}.rpm"
-curl -LO "https://github.com/DXC-0/ogc-kernel-rpm/releases/latest/download/kernel-power-lto-modules-${VERSION}.rpm"
-
-sudo dnf install ./kernel-*.rpm
-
 KERNEL_VERSION="$(rpm -q --qf '%{VERSION}-%{RELEASE}.%{ARCH}\n' kernel-power-lto)"
 
 # Depmod (required for fedora 43+)
