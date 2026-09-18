@@ -20,6 +20,12 @@ if (( ${#OLD_KERNELS[@]} )); then
     rm -rf /lib/modules/*
 fi
 
+dnf install -y \
+    jq
+
+TAG_NAME=$(curl -s https://api.github.com/repos/DXC-0/ogc-kernel-rpm/releases/latest | jq -r .tag_name)
+VERSION="${TAG_NAME#v}"
+
 # Install kernel packages (noscripts required for 43+)
 #dnf install -y \
 #    --enablerepo="copr:copr.fedorainfracloud.org:g:kernel-vanilla:fedora" \
@@ -31,9 +37,9 @@ fi
 #    mainline-fedora-rawhide-modules \
 #    mainline-fedora-rawhide-core
 
-curl -LO https://github.com/DXC-0/ogc-kernel-rpm/releases/latest/download/kernel-<version>.rpm
-curl -LO https://github.com/DXC-0/ogc-kernel-rpm/releases/latest/download/kernel-core-<version>.rpm
-curl -LO https://github.com/DXC-0/ogc-kernel-rpm/releases/latest/download/kernel-modules-<version>.rpm
+curl -LO "https://github.com/DXC-0/ogc-kernel-rpm/releases/latest/download/kernel-${VERSION}.rpm"
+curl -LO "https://github.com/DXC-0/ogc-kernel-rpm/releases/latest/download/kernel-core-${VERSION}.rpm"
+curl -LO "https://github.com/DXC-0/ogc-kernel-rpm/releases/latest/download/kernel-modules-${VERSION}.rpm"
 
 sudo dnf install ./kernel-*.rpm
 
@@ -62,5 +68,8 @@ dracut --force \
   --add-drivers "btrfs nvme xfs ext4" \
   --reproducible -v --add ostree \
   -f "/usr/lib/modules/${KERNEL_VERSION}/initramfs.img"
+
+dnf remove -y \
+    jq
 
 chmod 0600 "/lib/modules/${KERNEL_VERSION}/initramfs.img"
