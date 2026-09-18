@@ -7,4 +7,3 @@ set -ouex pipefail
 /ctx/packages/pkgs-fedora.sh 
 
 systemctl enable podman.socket
-systemctl enable gdm
