@@ -9,7 +9,7 @@ set -eoux pipefail
     #--allowerasing \
     #libcap-ng libcap-ng-devel bore-sysctl cachyos-ksm-settings procps-ng procps-ng-devel uksmd libbpf scx-scheds-git scx-tools-git scx-manager cachyos-settings ananicy-cpp
 
-dnf copr enable -y bieszczaders/kernel-cachyos-lto
+dnf copr enable -y @kernel-vanilla/fedora
 
 # Remove useless kernels
 readarray -t OLD_KERNELS < <(rpm -qa 'kernel-*')
@@ -22,16 +22,16 @@ fi
 
 # Install kernel packages (noscripts required for 43+)
 dnf install -y \
-    --enablerepo="copr:copr.fedorainfracloud.org:bieszczaders:kernel-cachyos-lto" \
+    --enablerepo="copr:copr.fedorainfracloud.org:@kernel-vanilla:fedora" \
     --allowerasing \
     --setopt=tsflags=noscripts \
-    kernel-cachyos-lto \
-    kernel-cachyos-lto-devel-matched \
-    kernel-cachyos-lto-devel \
-    kernel-cachyos-lto-modules \
-    kernel-cachyos-lto-core
+    mainline-fedora-rawhide \
+    mainline-fedora-rawhide-devel-matched \
+    mainline-fedora-rawhide-devel \
+    mainline-fedora-rawhide-modules \
+    mainline-fedora-rawhide-core
 
-KERNEL_VERSION="$(rpm -q --qf '%{VERSION}-%{RELEASE}.%{ARCH}\n' kernel-cachyos-lto)"
+KERNEL_VERSION="$(rpm -q --qf '%{VERSION}-%{RELEASE}.%{ARCH}\n' mainline-fedora-rawhide)"
 
 # Depmod (required for fedora 43+)
 depmod -a "${KERNEL_VERSION}"
@@ -44,8 +44,8 @@ if [[ -f "${VMLINUZ_SOURCE}" ]]; then
 fi
 
 # Lock kernel packages
-dnf versionlock add "kernel-cachyos-lto-${KERNEL_VERSION}" || true
-dnf versionlock add "kernel-cachyos-lto-modules-${KERNEL_VERSION}" || true
+dnf versionlock add "mainline-fedora-rawhide-${KERNEL_VERSION}" || true
+dnf versionlock add "mainline-fedora-rawhide-modules-${KERNEL_VERSION}" || true
 
 
 # Thank you @renner03 for this part
