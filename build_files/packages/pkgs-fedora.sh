@@ -17,6 +17,7 @@ dnf install -y @multimedia --setopt="install_weak_deps=False" --exclude=PackageK
 
 dnf install -y \
     android-tools \
+    distrobox \
     intel-media-driver \
     mangohud \
     NetworkManager-tui \
