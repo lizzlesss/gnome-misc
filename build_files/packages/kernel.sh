@@ -9,7 +9,7 @@ set -eoux pipefail
     #--allowerasing \
     #libcap-ng libcap-ng-devel bore-sysctl cachyos-ksm-settings procps-ng procps-ng-devel uksmd libbpf scx-scheds-git scx-tools-git scx-manager cachyos-settings ananicy-cpp
 
-dnf copr enable -y @kernel-vanilla/fedora
+#dnf copr enable -y @kernel-vanilla/fedora
 
 # Remove useless kernels
 readarray -t OLD_KERNELS < <(rpm -qa 'kernel-*')
@@ -21,17 +21,23 @@ if (( ${#OLD_KERNELS[@]} )); then
 fi
 
 # Install kernel packages (noscripts required for 43+)
-dnf install -y \
-    #--enablerepo="copr:copr.fedorainfracloud.org:g:kernel-vanilla:fedora" \
-    --allowerasing \
-    --setopt=tsflags=noscripts \
-    mainline-fedora-rawhide \
-    mainline-fedora-rawhide-devel-matched \
-    mainline-fedora-rawhide-devel \
-    mainline-fedora-rawhide-modules \
-    mainline-fedora-rawhide-core
+#dnf install -y \
+#    --enablerepo="copr:copr.fedorainfracloud.org:g:kernel-vanilla:fedora" \
+#    --allowerasing \
+#    --setopt=tsflags=noscripts \
+#    mainline-fedora-rawhide \
+#    mainline-fedora-rawhide-devel-matched \
+#    mainline-fedora-rawhide-devel \
+#    mainline-fedora-rawhide-modules \
+#    mainline-fedora-rawhide-core
 
-KERNEL_VERSION="$(rpm -q --qf '%{VERSION}-%{RELEASE}.%{ARCH}\n' mainline-fedora-rawhide)"
+curl -LO https://github.com/DXC-0/ogc-kernel-rpm/releases/latest/download/kernel-<version>.rpm
+curl -LO https://github.com/DXC-0/ogc-kernel-rpm/releases/latest/download/kernel-core-<version>.rpm
+curl -LO https://github.com/DXC-0/ogc-kernel-rpm/releases/latest/download/kernel-modules-<version>.rpm
+
+sudo dnf install ./kernel-*.rpm
+
+KERNEL_VERSION="$(rpm -q --qf '%{VERSION}-%{RELEASE}.%{ARCH}\n' kernel)"
 
 # Depmod (required for fedora 43+)
 depmod -a "${KERNEL_VERSION}"
@@ -44,8 +50,8 @@ if [[ -f "${VMLINUZ_SOURCE}" ]]; then
 fi
 
 # Lock kernel packages
-dnf versionlock add "mainline-fedora-rawhide-${KERNEL_VERSION}" || true
-dnf versionlock add "mainline-fedora-rawhide-modules-${KERNEL_VERSION}" || true
+dnf versionlock add "kernel-${KERNEL_VERSION}" || true
+dnf versionlock add "kernel-modules-${KERNEL_VERSION}" || true
 
 
 # Thank you @renner03 for this part
