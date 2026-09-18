@@ -9,7 +9,7 @@ set -eoux pipefail
     #--allowerasing \
     #libcap-ng libcap-ng-devel bore-sysctl cachyos-ksm-settings procps-ng procps-ng-devel uksmd libbpf scx-scheds-git scx-tools-git scx-manager cachyos-settings ananicy-cpp
 
-#dnf copr enable -y @kernel-vanilla/fedora
+dnf copr enable -y binarytree/linux-power-lto
 
 # Remove useless kernels
 readarray -t OLD_KERNELS < <(rpm -qa 'kernel-*')
@@ -20,30 +20,24 @@ if (( ${#OLD_KERNELS[@]} )); then
     rm -rf /lib/modules/*
 fi
 
-dnf install -y \
-    jq
-
-TAG_NAME=$(curl -s https://api.github.com/repos/DXC-0/ogc-kernel-rpm/releases/latest | jq -r .tag_name)
-VERSION="${TAG_NAME#v}"
-
 # Install kernel packages (noscripts required for 43+)
-#dnf install -y \
-#    --enablerepo="copr:copr.fedorainfracloud.org:g:kernel-vanilla:fedora" \
-#    --allowerasing \
-#    --setopt=tsflags=noscripts \
-#    mainline-fedora-rawhide \
-#    mainline-fedora-rawhide-devel-matched \
-#    mainline-fedora-rawhide-devel \
-#    mainline-fedora-rawhide-modules \
-#    mainline-fedora-rawhide-core
+dnf install -y \
+    --enablerepo="copr:copr.fedorainfracloud.org:binarytree:linux-power-lto" \
+    --allowerasing \
+    --setopt=tsflags=noscripts \
+    kernel-power-lto \
+    kernel-power-lto-devel-matched \
+    kernel-power-lto-devel \
+    kernel-power-lto-modules \
+    kernel-power-lto-core
 
-curl -LO "https://github.com/DXC-0/ogc-kernel-rpm/releases/latest/download/kernel-${VERSION}.rpm"
-curl -LO "https://github.com/DXC-0/ogc-kernel-rpm/releases/latest/download/kernel-core-${VERSION}.rpm"
-curl -LO "https://github.com/DXC-0/ogc-kernel-rpm/releases/latest/download/kernel-modules-${VERSION}.rpm"
+curl -LO "https://github.com/DXC-0/ogc-kernel-rpm/releases/latest/download/kernel-power-lto-${VERSION}.rpm"
+curl -LO "https://github.com/DXC-0/ogc-kernel-rpm/releases/latest/download/kernel-power-lto-core-${VERSION}.rpm"
+curl -LO "https://github.com/DXC-0/ogc-kernel-rpm/releases/latest/download/kernel-power-lto-modules-${VERSION}.rpm"
 
 sudo dnf install ./kernel-*.rpm
 
-KERNEL_VERSION="$(rpm -q --qf '%{VERSION}-%{RELEASE}.%{ARCH}\n' kernel)"
+KERNEL_VERSION="$(rpm -q --qf '%{VERSION}-%{RELEASE}.%{ARCH}\n' kernel-power-lto)"
 
 # Depmod (required for fedora 43+)
 depmod -a "${KERNEL_VERSION}"
@@ -56,8 +50,8 @@ if [[ -f "${VMLINUZ_SOURCE}" ]]; then
 fi
 
 # Lock kernel packages
-dnf versionlock add "kernel-${KERNEL_VERSION}" || true
-dnf versionlock add "kernel-modules-${KERNEL_VERSION}" || true
+dnf versionlock add "kernel-power-lto-${KERNEL_VERSION}" || true
+dnf versionlock add "kernel-power-lto-modules-${KERNEL_VERSION}" || true
 
 
 # Thank you @renner03 for this part
@@ -68,8 +62,5 @@ dracut --force \
   --add-drivers "btrfs nvme xfs ext4" \
   --reproducible -v --add ostree \
   -f "/usr/lib/modules/${KERNEL_VERSION}/initramfs.img"
-
-dnf remove -y \
-    jq
 
 chmod 0600 "/lib/modules/${KERNEL_VERSION}/initramfs.img"
