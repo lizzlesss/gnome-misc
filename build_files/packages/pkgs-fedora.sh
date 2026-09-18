@@ -2,6 +2,9 @@
 
 set -eoux pipefail
 
+dnf remove -y \
+    firefox
+
 dnf remove -y --setopt=install_weak_deps=False \
     gnome-software
 
