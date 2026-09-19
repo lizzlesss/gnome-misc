@@ -6,9 +6,9 @@ dnf remove -y \
     firefox
 
 dnf remove -y --setopt=install_weak_deps=False \
-    gnome-software #\
-    #gnome-tour \
-    #yelp
+    gnome-software \
+    gnome-tour \
+    yelp
 
 #dnf install -y \
 #    https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
