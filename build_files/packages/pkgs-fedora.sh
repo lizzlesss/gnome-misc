@@ -10,23 +10,25 @@ dnf remove -y --setopt=install_weak_deps=False \
     gnome-tour \
     yelp
 
-#dnf install -y \
-#    https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
-#    https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+dnf install -y \
+    https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
+    https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 
-#dnf swap -y ffmpeg-free ffmpeg --allowerasing
-#dnf install -y @multimedia --setopt="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin --skip-broken
+dnf swap -y ffmpeg-free ffmpeg --allowerasing
+dnf install -y @multimedia --setopt="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin --skip-broken
 
 dnf install -y \
     android-tools \
+    distrobox \
     fish \
+    intel-media-driver \
     mangohud \
     NetworkManager-tui \
     testdisk \
     qphotorec \
     https://github.com/nbfc-linux/nbfc-linux/releases/download/0.5.3/fedora-44-nbfc-linux-0.5.3-1.x86_64.rpm
-    #distrobox \
-    #intel-media-driver \
+    #
+    #
 
 # copr
 dnf copr enable -y bieszczaders/kernel-cachyos-addons
