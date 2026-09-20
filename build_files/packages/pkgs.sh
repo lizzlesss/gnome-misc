@@ -3,6 +3,7 @@
 set -eoux pipefail
 
 pacman -Sy --noconfirm \
+    inotify-tools \
     intel-lpmd \
     scx-scheds \
     scx-tools \
