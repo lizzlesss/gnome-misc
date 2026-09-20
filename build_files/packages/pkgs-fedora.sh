@@ -19,6 +19,7 @@ dnf remove -y --setopt=install_weak_deps=False \
 
 dnf install -y \
     android-tools \
+    fish \
     mangohud \
     NetworkManager-tui \
     testdisk \
