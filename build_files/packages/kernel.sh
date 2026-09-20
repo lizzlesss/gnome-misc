@@ -57,7 +57,8 @@ dracut --force \
   --reproducible -v --add ostree \
   -f "/usr/lib/modules/${KERNEL_VERSION}/initramfs.img"
 
-chmod 0600 "/lib/modules/${KERNEL_VERSION}/initramfs.img"depmod -a "${KERNEL_VERSION}"
+chmod 0600 "/lib/modules/${KERNEL_VERSION}/initramfs.img"
+depmod -a "${KERNEL_VERSION}"
 
 # Copy vmlinuz
 VMLINUZ_SOURCE="/usr/lib/kernel/vmlinuz-${KERNEL_VERSION}"
