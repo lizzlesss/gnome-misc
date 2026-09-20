@@ -67,8 +67,8 @@ if [[ -f "${VMLINUZ_SOURCE}" ]]; then
 fi
 
 # Lock kernel packages
-dnf versionlock add "kernel-power-lto-${KERNEL_VERSION}" || true
-dnf versionlock add "kernel-power-lto-modules-${KERNEL_VERSION}" || true
+dnf versionlock add "kernel-cachyos-lto-${KERNEL_VERSION}" || true
+dnf versionlock add "kernel-cachyos-lto-modules-${KERNEL_VERSION}" || true
 
 
 # Thank you @renner03 for this part
