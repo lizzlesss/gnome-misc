@@ -37,6 +37,6 @@ dnf copr enable -y bieszczaders/kernel-cachyos-addons
 dnf install -y \
     --enablerepo="copr:copr.fedorainfracloud.org:bieszczaders:kernel-cachyos-addons" \
     --allowerasing \
-    libbpf scx-scheds-git scx-tools-git scx-manager
+    scx-scheds-git scx-tools-git scx-manager
 
 dnf -y copr disable bieszczaders/kernel-cachyos-addons
