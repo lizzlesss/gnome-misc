@@ -5,8 +5,6 @@ set -eoux pipefail
 pacman -Syu --noconfirm
 pacman -R --noconfirm power-profiles-daemon
 pacman -Sy --noconfirm \
-    fish \
-    ffmpeg-full \
     intel-lpmd \
     intel-media-driver \
     scx-scheds \
