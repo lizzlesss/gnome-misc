@@ -20,7 +20,6 @@ dnf install -y @multimedia --setopt="install_weak_deps=False" --exclude=PackageK
 dnf install -y \
     android-tools \
     distrobox \
-    fish \
     intel-media-driver \
     intel-vpl-gpu-rt \
     mangohud \
@@ -28,8 +27,6 @@ dnf install -y \
     testdisk \
     qphotorec \
     https://github.com/nbfc-linux/nbfc-linux/releases/download/0.5.3/fedora-44-nbfc-linux-0.5.3-1.x86_64.rpm
-    #
-    #
 
 # copr
 dnf copr enable -y bieszczaders/kernel-cachyos-addons
