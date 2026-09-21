@@ -9,7 +9,6 @@ pacman -Sy --noconfirm \
     intel-media-driver \
     scx-scheds \
     scx-tools \
-    starship \
     tuned \
     tuned-ppd \
     vpl-gpu-rt \
