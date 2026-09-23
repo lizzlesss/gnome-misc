@@ -4,7 +4,7 @@ COPY build_files /
 
 # Base Image
 #FROM ghcr.io/apollo-linux/apollo:latest
-FROM quay.io/fedora-ostree-desktops/silverblue:45
+FROM quay.io/fedora-ostree-desktops/silverblue:44
 
 RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     --mount=type=cache,dst=/var/cache \
