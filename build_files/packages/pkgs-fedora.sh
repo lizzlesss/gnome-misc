@@ -30,6 +30,10 @@ dnf install -y \
 
 # copr
 #dnf copr enable -y bieszczaders/kernel-cachyos-addons
+dnf copr enable -y crono/system76-scheduler
+
+dnf install -y \
+    system76-scheduler-git
 
 # Adds required package for the scheduler
 #dnf install -y \
@@ -37,4 +41,5 @@ dnf install -y \
 #    --allowerasing \
 #    scx-scheds-git scx-tools-git scx-manager
 
+dnf copr disable -y crono/system76-scheduler
 #dnf -y copr disable bieszczaders/kernel-cachyos-addons
