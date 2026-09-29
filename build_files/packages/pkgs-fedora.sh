@@ -17,6 +17,12 @@ dnf install -y \
 dnf swap -y ffmpeg-free ffmpeg --allowerasing
 dnf install -y @multimedia --setopt="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin --skip-broken
 
+# some bullshit to get nbfc working past 44
+dnf install -y --allowerasing \
+    lua5.4-libs \
+    openssl3-devel \
+    openssl3-libs
+
 dnf install -y \
     android-tools \
     distrobox \
