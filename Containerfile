@@ -3,15 +3,15 @@ FROM scratch AS ctx
 COPY build_files /
 
 # Base Image
-#FROM ghcr.io/apollo-linux/apollo:latest
-FROM quay.io/fedora-ostree-desktops/silverblue:44
+FROM ghcr.io/apollo-linux/apollo:latest
+#FROM quay.io/fedora-ostree-desktops/silverblue:44
 
 RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     --mount=type=cache,dst=/var/cache \
     --mount=type=cache,dst=/var/log \
     --mount=type=tmpfs,dst=/tmp \
-    #/ctx/build.sh
-    /ctx/build-fedora.sh
+    /ctx/build.sh
+    #/ctx/build-fedora.sh
     
 ### LINTING
 ## Verify final image and contents are correct.
